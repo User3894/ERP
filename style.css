@@ -1,0 +1,243 @@
+/* --- إعدادات عامة و خطوط --- */
+:root {
+    --primary-color: #3498db; /* أزرق */
+    --secondary-color: #2ecc71; /* أخضر للإيرادات */
+    --tertiary-color: #e74c3c; /* أحمر للمصروفات */
+    --background-color: #f4f7f6;
+    --card-background: #ffffff;
+    --text-color: #333;
+    --border-color: #e0e0e0;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    direction: rtl; /* دعم اللغة العربية */
+    overflow-x: hidden; /* منع التمرير الأفقي بسبب الخلفية */
+    position: relative; /* لتثبيت خلفية three.js */
+}
+
+/* --- حاوية خلفية Three.js --- */
+#threejs-container {
+    position: fixed; /* أو absolute إذا كنت تفضل */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* وضعها خلف المحتوى */
+    opacity: 0.1; /* تخفيف الشفافية */
+}
+
+
+/* --- الحاوية الرئيسية للتطبيق --- */
+.app-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 25px;
+    background-color: var(--card-background);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    position: relative; /* لضمان ظهوره فوق الخلفية */
+    z-index: 1;
+}
+
+header h1 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 2em;
+}
+
+/* --- قسم الملخص --- */
+.summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.summary-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.summary-card h4 {
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 1em;
+}
+
+.summary-card p {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.income-card p {
+    color: var(--secondary-color);
+}
+
+.expense-card p {
+    color: var(--tertiary-color);
+}
+
+.balance-card p {
+    color: var(--primary-color);
+}
+
+/* --- قسم إضافة معاملة --- */
+.add-transaction h2,
+.transactions h2 {
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.add-transaction form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* عمودان */
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.form-control {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-control label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-control input[type="text"],
+.form-control input[type="number"],
+.form-control input[type="date"],
+.form-control select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.95em;
+}
+
+.form-control input:focus,
+.form-control select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+/* جعل الزر يمتد على عرض العمودين */
+.add-transaction form .btn-add {
+    grid-column: 1 / -1; /* يمتد من العمود الأول إلى الأخير */
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    font-family: 'Cairo', sans-serif;
+}
+
+.add-transaction form .btn-add:hover {
+    background-color: #2980b9; /* أزرق أغمق عند المرور */
+}
+
+/* --- قسم سجل المعاملات --- */
+.transactions table {
+    width: 100%;
+    border-collapse: collapse; /* دمج الحدود */
+    margin-top: 10px;
+}
+
+.transactions th,
+.transactions td {
+    border: 1px solid var(--border-color);
+    padding: 12px 15px;
+    text-align: right; /* محاذاة لليمين */
+}
+
+.transactions th {
+    background-color: #e9ecef;
+    color: #495057;
+    font-weight: bold;
+}
+
+.transactions tbody tr:nth-child(even) {
+    background-color: #f8f9fa; /* تلوين الصفوف الزوجية */
+}
+
+.transactions tbody tr:hover {
+    background-color: #e9ecef; /* تغيير اللون عند المرور */
+}
+
+.transaction-item.income td:nth-child(2) { /* تلوين مبلغ الإيراد */
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+.transaction-item.expense td:nth-child(2) { /* تلوين مبلغ المصروف */
+    color: var(--tertiary-color);
+    font-weight: bold;
+}
+
+.delete-btn {
+    background-color: var(--tertiary-color);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b; /* أحمر أغمق */
+}
+
+/* --- تصميم متجاوب --- */
+@media (max-width: 768px) {
+    .app-container {
+        margin: 15px;
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 1.6em;
+    }
+
+    .summary {
+        grid-template-columns: 1fr; /* عمود واحد في الشاشات الصغيرة */
+    }
+
+    .add-transaction form {
+        grid-template-columns: 1fr; /* عمود واحد للنموذج */
+    }
+
+    .transactions th,
+    .transactions td {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+     /* قد تحتاج لإخفاء بعض الأعمدة أو تغيير عرضها في الشاشات الصغيرة جداً */
+  }
